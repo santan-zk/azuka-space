@@ -1,0 +1,8 @@
+Fonts used by Azuka-space, self-hosted so no third-party font service is contacted.
+All three are licensed under the SIL Open Font License 1.1 (https://openfontlicense.org).
+
+Archivo (variable)        Copyright 2020 The Archivo Project Authors   https://github.com/Omnibus-Type/Archivo
+Inter (variable)          Copyright 2020 The Inter Project Authors     https://github.com/rsms/inter
+JetBrains Mono (variable) Copyright 2020 The JetBrains Mono Project Authors   https://github.com/JetBrains/JetBrainsMono
+
+Files were taken unmodified from the @fontsource-variable npm packages (latin subset).

@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Academic Planner | Azuka-space</title>
+<meta name="description" content="Academic Planner: courses, tasks, deadlines, exam countdowns and time tracking for university work and independent engineering. Saved in your browser only.">
+<meta name="theme-color" content="#0a0b0d">
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/archivo-latin-wdth.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body data-page="planner">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="wordmark" href="index.html" aria-label="Azuka-space, home"><span class="wordmark-mark" aria-hidden="true"></span>Azuka-space</a>
+    <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="header-menu">Menu</button>
+    <div class="header-menu" id="header-menu">
+      <nav class="site-nav" aria-label="Main">
+        <ul class="nav-list"><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="projects.html">Projects</a></li><li><a href="planner.html" aria-current="page">Academic Planner</a></li><li><a href="contact.html">Contact</a></li></ul>
+      </nav>
+      <button type="button" class="btn btn-small cmd-button" data-open-palette aria-haspopup="dialog">Commands <kbd data-palette-key>Ctrl K</kbd></button>
+    </div>
+  </div>
+</header>
+<main id="main">
+<div class="container planner-page">
+  <header class="page-head planner-head">
+    <div>
+      <h1>Academic Planner</h1>
+      <p class="lead">Your university work and your own engineering in one place. Saved in this browser only.</p>
+    </div>
+    <div class="head-actions">
+      <button type="button" class="btn btn-primary" id="new-task-btn">New task</button>
+      <button type="button" class="btn" id="new-course-btn">New course</button>
+    </div>
+  </header>
+
+  <details class="howto" id="howto">
+    <summary>How to use this planner</summary>
+    <ol>
+      <li><strong>Add a task.</strong> Press New task, pick Academic or Engineering, and add a deadline and an estimate if you have them. Engineering tasks do not need a course.</li>
+      <li><strong>Add courses (optional).</strong> Press New course so academic tasks can be linked to one.</li>
+      <li><strong>Track your time.</strong> Press Start timer on a task, or Log time to add minutes by hand. Your estimate and your logged time are kept apart.</li>
+      <li><strong>Finish tasks.</strong> Mark complete when done. A task is overdue only while it is open and its deadline has passed.</li>
+      <li><strong>Set your split.</strong> Open Workload split below to choose your planned hours and your engineering share (50% to 70%). It is a guide, and deadlines always show at the top.</li>
+      <li><strong>See your habits.</strong> Open Activity below for a heat graph of the days you logged time.</li>
+      <li><strong>Back up.</strong> Your data lives only in this browser. Open Your data and use Export now and then.</li>
+    </ol>
+  </details>
+
+  <div id="notices" class="notices" role="status" aria-live="polite"></div>
+
+  <div class="timer-banner" id="timer-banner" hidden>
+    <p>Timing <strong id="timer-task"></strong>: <span class="elapsed" id="timer-elapsed">0:00:00</span></p>
+    <button type="button" class="btn btn-small btn-primary" id="timer-stop">Stop and log</button>
+    <button type="button" class="btn btn-small" id="timer-discard">Discard</button>
+  </div>
+
+  <section class="panel attention" aria-labelledby="attention-h">
+    <h2 id="attention-h">Needs attention <span id="overdue-count"></span></h2>
+    <p class="note" id="attention-clear">Nothing is overdue and nothing is due in the next 7 days. Deadlines and exam countdowns appear here when you add them.</p>
+    <div id="grp-overdue" hidden>
+      <h3 class="sub-h">Overdue</h3>
+      <ul class="deadline-list" id="list-overdue"></ul>
+    </div>
+    <div id="grp-soon" hidden>
+      <h3 class="sub-h">Due in the next 7 days</h3>
+      <ul class="deadline-list" id="list-soon"></ul>
+    </div>
+    <div id="grp-exams" hidden>
+      <h3 class="sub-h">Exam countdown</h3>
+      <ul class="deadline-list" id="list-exams"></ul>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="tasks-h">
+    <h2 id="tasks-h">Tasks <span class="results-count" id="results-count"></span></h2>
+
+    <div class="progress-line" id="progress-line" hidden>
+      <p id="progress-text"></p>
+      <progress id="progress-bar" max="1" value="0" aria-label="Share of tasks completed"></progress>
+    </div>
+
+    <details class="filters-fold" id="filters-fold" hidden>
+      <summary>Search, filter and sort</summary>
+        <form class="filters" id="filters" role="search" aria-label="Filter tasks">
+          <div class="filter-search"><label for="f-search">Search tasks</label><input id="f-search" type="search" placeholder="Title, notes, course, category"></div>
+          <div><label for="f-domain">Domain</label><select id="f-domain"><option value="all">All domains</option><option value="academic">Academic</option><option value="engineering">Engineering</option></select></div>
+          <div><label for="f-course">Course</label><select id="f-course"></select></div>
+          <div><label for="f-status">Status</label><select id="f-status"><option value="all">All statuses</option><option value="todo">Not started</option><option value="doing">In progress</option><option value="done">Completed</option><option value="overdue">Overdue</option></select></div>
+          <div><label for="f-priority">Priority</label><select id="f-priority"><option value="all">All priorities</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select></div>
+          <div><label for="f-category">Category</label><select id="f-category"></select></div>
+          <div><label for="f-sort">Sort by</label><select id="f-sort"><option value="deadline">Deadline, soonest first</option><option value="priority">Priority, high first</option><option value="status">Status</option><option value="newest">Newest first</option></select></div>
+          <div><button type="button" class="btn btn-small" id="clear-filters">Clear filters</button></div>
+        </form>
+
+    </details>
+
+        <ul class="task-list" id="task-list"></ul>
+
+        <div class="empty" id="tasks-empty">
+          <h3>No tasks yet</h3>
+          <p>Add a task for university work or for your own engineering. An engineering task does not need a course. Add courses first if you want academic tasks linked to them.</p>
+          <p><button type="button" class="btn btn-primary" id="empty-new-task">Add your first task</button></p>
+        </div>
+        <div class="empty" id="tasks-filtered-empty" hidden>
+          <h3>No tasks match these filters</h3>
+          <p id="hidden-count"></p>
+          <p><button type="button" class="btn" id="clear-filters-2">Clear filters</button></p>
+        </div>
+  </section>
+
+  <section class="folds" aria-label="Planning, progress and settings">
+    <details class="fold" id="fold-workload">
+      <summary><span>Workload split</span><span class="fold-hint">Planned hours and your engineering share</span></summary>
+      <div class="fold-body">
+        <p class="help">A target for how to spend planned hours. It measures time only, not productivity or results.</p>
+        <div class="field">
+          <label for="alloc-period">Planning period</label>
+          <select id="alloc-period"><option value="day">Day</option><option value="week">Week</option><option value="month">Month</option></select>
+          <p class="hint" id="alloc-range"></p>
+        </div>
+        <div class="field">
+          <label for="alloc-hours">Planned work hours in this period</label>
+          <input id="alloc-hours" type="number" min="1" max="500" step="0.25" inputmode="decimal" aria-describedby="alloc-hours-error">
+          <p class="field-error" id="alloc-hours-error"></p>
+        </div>
+        <div class="field">
+          <label for="alloc-slider">Engineering share (50% to 70%)</label>
+          <input id="alloc-slider" type="range" min="50" max="70" step="1" aria-describedby="alloc-out">
+          <p class="alloc-out" id="alloc-out"><span id="alloc-eng-pct"></span><span id="alloc-acad-pct"></span></p>
+        </div>
+        <div id="meters"></div>
+        <dl class="facts" id="alloc-facts"></dl>
+        <p class="hint">Logged time is counted from time entries dated inside this period. Estimates due are the estimates of tasks whose deadline falls inside it.</p>
+        <h3 class="sub-h">Tasks by status</h3>
+        <dl class="facts" id="counts"></dl>
+      </div>
+    </details>
+
+    <details class="fold" id="fold-activity">
+      <summary><span>Activity, last 12 weeks</span><span class="fold-hint">Heat graph of days you logged time</span></summary>
+      <div class="fold-body">
+        <p class="hint">One square per day, darker for more time logged. It counts time entries only, so an empty square means nothing was logged, not that nothing was done.</p>
+        <div class="field">
+          <label for="heat-domain">Show</label>
+          <select id="heat-domain">
+            <option value="all">All logged time</option>
+            <option value="engineering">Independent engineering only</option>
+            <option value="academic">Academic only</option>
+          </select>
+        </div>
+        <div id="heat-chart"></div>
+      </div>
+    </details>
+
+    <details class="fold" id="fold-courses">
+      <summary><span>Courses <span id="courses-count"></span></span><span class="fold-hint">Add, edit or remove</span></summary>
+      <div class="fold-body">
+        <ul class="course-list" id="course-list"></ul>
+        <div class="empty" id="courses-empty">
+          <h3>No courses yet</h3>
+          <p>Add each course you take. Your real course list is not preloaded.</p>
+          <p><button type="button" class="btn" id="empty-new-course">Add a course</button></p>
+        </div>
+      </div>
+    </details>
+
+    <details class="fold" id="fold-data">
+      <summary><span>Your data</span><span class="fold-hint">Export, import or reset</span></summary>
+      <div class="fold-body">
+        <p class="help">Saved in this browser, on this device, for this site address. It does not sync to other devices and clearing site data erases it. Dates use this device's local time, and a task with no time is due at the end of its day.</p>
+        <div class="task-actions">
+          <button type="button" class="btn btn-small" id="export-btn">Export JSON</button>
+          <button type="button" class="btn btn-small" id="import-btn">Import JSON</button>
+          <button type="button" class="btn btn-small btn-danger" id="reset-btn">Delete all data</button>
+        </div>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+        <div id="backup-row" hidden>
+          <p class="help">A copy of unreadable data from an earlier visit is kept in this browser.</p>
+          <div class="task-actions">
+            <button type="button" class="btn btn-small" id="backup-download">Download that copy</button>
+            <button type="button" class="btn btn-small" id="backup-discard">Discard it</button>
+          </div>
+        </div>
+      </div>
+    </details>
+  </section>
+</div>
+
+<dialog id="task-dialog" aria-labelledby="task-dialog-title">
+  <form id="task-form" class="dialog-body" novalidate>
+    <h2 id="task-dialog-title">New task</h2>
+    <input type="hidden" id="t-id">
+    <fieldset class="field">
+      <legend>Domain</legend>
+      <div class="choice-row">
+        <label><input type="radio" name="domain" value="engineering" checked> Independent engineering</label>
+        <label><input type="radio" name="domain" value="academic"> Academic</label>
+      </div>
+    </fieldset>
+    <div class="field">
+      <label for="t-title">Title</label>
+      <input id="t-title" type="text" required autocomplete="off" aria-describedby="t-title-error">
+      <p class="field-error" id="t-title-error"></p>
+    </div>
+    <div class="field" id="course-field" hidden>
+      <label for="t-course">Course (optional)</label>
+      <select id="t-course"></select>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="t-type">Type</label>
+        <input id="t-type" type="text" list="type-options" autocomplete="off" aria-describedby="t-type-error">
+        <datalist id="type-options"></datalist>
+        <p class="field-error" id="t-type-error"></p>
+      </div>
+      <div class="field">
+        <label for="t-category">Category or technology</label>
+        <input id="t-category" type="text" list="category-options" autocomplete="off" aria-describedby="t-category-hint t-category-error">
+        <datalist id="category-options"></datalist>
+        <p class="hint" id="t-category-hint"></p>
+        <p class="field-error" id="t-category-error"></p>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="t-date">Due date (optional)</label>
+        <input id="t-date" type="date" aria-describedby="t-date-error">
+        <p class="field-error" id="t-date-error"></p>
+      </div>
+      <div class="field">
+        <label for="t-time">Due time (optional)</label>
+        <input id="t-time" type="time" aria-describedby="t-time-error">
+        <p class="field-error" id="t-time-error"></p>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="t-priority">Priority</label>
+        <select id="t-priority"><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select>
+      </div>
+      <div class="field">
+        <label for="t-status">Status</label>
+        <select id="t-status"><option value="todo">Not started</option><option value="doing">In progress</option><option value="done">Completed</option></select>
+      </div>
+    </div>
+    <div class="field">
+      <label for="t-est">Estimated effort (optional)</label>
+      <div class="field-inline">
+        <input id="t-est" type="number" min="0" step="any" inputmode="decimal" aria-describedby="t-est-hint t-est-error">
+        <select id="t-est-unit" aria-label="Estimate unit"><option value="hours">hours</option><option value="minutes">minutes</option></select>
+      </div>
+      <p class="hint" id="t-est-hint">Time actually spent is recorded separately with Log time or the timer.</p>
+      <p class="field-error" id="t-est-error"></p>
+    </div>
+    <div class="field">
+      <label for="t-notes">Notes (optional)</label>
+      <textarea id="t-notes" rows="3" aria-describedby="t-notes-error"></textarea>
+      <p class="field-error" id="t-notes-error"></p>
+    </div>
+    <div class="dialog-actions">
+      <button type="button" class="btn" id="task-cancel">Cancel</button>
+      <button type="submit" class="btn btn-primary">Save task</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="course-dialog" aria-labelledby="course-dialog-title">
+  <form id="course-form" class="dialog-body" novalidate>
+    <h2 id="course-dialog-title">New course</h2>
+    <input type="hidden" id="c-id">
+    <div class="field-row">
+      <div class="field">
+        <label for="c-code">Course code</label>
+        <input id="c-code" type="text" required autocomplete="off" aria-describedby="c-code-error">
+        <p class="field-error" id="c-code-error"></p>
+      </div>
+      <div class="field">
+        <label for="c-term">Semester or term (optional)</label>
+        <input id="c-term" type="text" autocomplete="off" aria-describedby="c-term-error">
+        <p class="field-error" id="c-term-error"></p>
+      </div>
+    </div>
+    <div class="field">
+      <label for="c-title">Course title</label>
+      <input id="c-title" type="text" required autocomplete="off" aria-describedby="c-title-error">
+      <p class="field-error" id="c-title-error"></p>
+    </div>
+    <div class="field">
+      <label for="c-notes">Notes (optional)</label>
+      <textarea id="c-notes" rows="3" aria-describedby="c-notes-error"></textarea>
+      <p class="field-error" id="c-notes-error"></p>
+    </div>
+    <div class="dialog-actions">
+      <button type="button" class="btn" id="course-cancel">Cancel</button>
+      <button type="submit" class="btn btn-primary">Save course</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="log-dialog" aria-labelledby="log-dialog-title">
+  <form id="log-form" class="dialog-body" novalidate>
+    <h2 id="log-dialog-title">Log time</h2>
+    <p>On: <strong id="log-task-name"></strong></p>
+    <input type="hidden" id="l-task">
+    <div class="field-row">
+      <div class="field">
+        <label for="l-minutes">Minutes spent</label>
+        <input id="l-minutes" type="number" min="1" max="1440" step="1" inputmode="numeric" aria-describedby="l-minutes-error">
+        <p class="field-error" id="l-minutes-error"></p>
+      </div>
+      <div class="field">
+        <label for="l-date">Date you did the work</label>
+        <input id="l-date" type="date" aria-describedby="l-date-error">
+        <p class="field-error" id="l-date-error"></p>
+      </div>
+    </div>
+    <div class="dialog-actions">
+      <button type="button" class="btn" id="log-cancel">Cancel</button>
+      <button type="submit" class="btn btn-primary">Add time entry</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="confirm-dialog" aria-labelledby="confirm-title">
+  <form method="dialog" class="dialog-body">
+    <h2 id="confirm-title"></h2>
+    <p id="confirm-text"></p>
+    <div class="dialog-actions">
+      <button type="submit" class="btn" value="cancel" autofocus>Cancel</button>
+      <button type="submit" class="btn btn-danger" value="ok" id="confirm-ok">Confirm</button>
+    </div>
+  </form>
+</dialog>
+</main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>Azuka-space is the COS 106 project of Obi Chidera Azuka, Computer Science, MIVA Open University.</p>
+    <p>Planner data stays in your own browser.</p>
+  </div>
+</footer>
+<script src="js/store.js" defer></script>
+<script src="js/config.js" defer></script>
+<script src="js/main.js" defer></script>
+<script src="js/planner.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact | Azuka-space</title>
+<meta name="description" content="Contact form with validation. Message delivery status is shown honestly.">
+<meta name="theme-color" content="#0a0b0d">
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/archivo-latin-wdth.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body data-page="contact">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="wordmark" href="index.html" aria-label="Azuka-space, home"><span class="wordmark-mark" aria-hidden="true"></span>Azuka-space</a>
+    <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="header-menu">Menu</button>
+    <div class="header-menu" id="header-menu">
+      <nav class="site-nav" aria-label="Main">
+        <ul class="nav-list"><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="projects.html">Projects</a></li><li><a href="planner.html">Academic Planner</a></li><li><a href="contact.html" aria-current="page">Contact</a></li></ul>
+      </nav>
+      <button type="button" class="btn btn-small cmd-button" data-open-palette aria-haspopup="dialog">Commands <kbd data-palette-key>Ctrl K</kbd></button>
+    </div>
+  </div>
+</header>
+<main id="main">
+<div class="container">
+  <header class="contact-head">
+    <p class="eyebrow">Contact</p>
+    <h1><span>Let&rsquo;s build</span><span>something</span><span>meaningful.</span></h1>
+    <p class="lead">Send a message about a project, a question, or a chance to work on something hard.</p>
+  </header>
+  <div class="contact-layout">
+    <div class="contact-side">
+      <p class="delivery-state" id="delivery-state">Message delivery status loads with JavaScript.</p>
+      <dl class="contact-details">
+        <dt>Email</dt>
+        <dd id="email-slot">Not published on this site yet.</dd>
+      </dl>
+    </div>
+
+    <form id="contact-form" novalidate aria-label="Contact form">
+      <div class="field">
+        <label for="c-name">Name</label>
+        <input id="c-name" name="name" type="text" required minlength="2" autocomplete="name" aria-describedby="c-name-hint c-name-error">
+        <p class="hint" id="c-name-hint">Letters, with spaces, hyphens or apostrophes between parts. No digits or symbols.</p>
+        <p class="field-error" id="c-name-error"></p>
+      </div>
+      <div class="field">
+        <label for="c-email">Email</label>
+        <input id="c-email" name="email" type="email" required autocomplete="email" aria-describedby="c-email-error">
+        <p class="field-error" id="c-email-error"></p>
+      </div>
+      <div class="field">
+        <label for="c-phone">Phone</label>
+        <input id="c-phone" name="phone" type="tel" required inputmode="numeric" pattern="[0-9]{7,15}" autocomplete="tel" aria-describedby="c-phone-hint c-phone-error">
+        <p class="hint" id="c-phone-hint">Digits only, 7 to 15. No spaces, brackets, hyphens or plus sign. Example: 08012345678</p>
+        <p class="field-error" id="c-phone-error"></p>
+      </div>
+      <div class="field">
+        <label for="c-message">Message</label>
+        <textarea id="c-message" name="message" required minlength="10" rows="6" aria-describedby="c-message-count c-message-error"></textarea>
+        <p class="hint char-count" id="c-message-count">0 of 2000 characters</p>
+        <p class="field-error" id="c-message-error"></p>
+      </div>
+      <div class="hero-actions">
+        <button type="submit" class="btn btn-primary" id="send-btn">Send message</button>
+        <button type="button" class="btn" id="mailto-btn" hidden>Open in my email app instead</button>
+      </div>
+      <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>Azuka-space is the COS 106 project of Obi Chidera Azuka, Computer Science, MIVA Open University.</p>
+    <p>Planner data stays in your own browser.</p>
+  </div>
+</footer>
+<script src="js/store.js" defer></script>
+<script src="js/config.js" defer></script>
+<script src="js/main.js" defer></script>
+<script src="js/validators.js" defer></script>
+<script src="js/contact.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects | Azuka-space</title>
+<meta name="description" content="Project case studies, led by OYA Creative, and an interactive bubble sort visualiser.">
+<meta name="theme-color" content="#0a0b0d">
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/archivo-latin-wdth.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body data-page="projects">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="wordmark" href="index.html" aria-label="Azuka-space, home"><span class="wordmark-mark" aria-hidden="true"></span>Azuka-space</a>
+    <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="header-menu">Menu</button>
+    <div class="header-menu" id="header-menu">
+      <nav class="site-nav" aria-label="Main">
+        <ul class="nav-list"><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="projects.html" aria-current="page">Projects</a></li><li><a href="planner.html">Academic Planner</a></li><li><a href="contact.html">Contact</a></li></ul>
+      </nav>
+      <button type="button" class="btn btn-small cmd-button" data-open-palette aria-haspopup="dialog">Commands <kbd data-palette-key>Ctrl K</kbd></button>
+    </div>
+  </div>
+</header>
+<main id="main">
+<div class="container">
+  <header class="page-head">
+    <p class="eyebrow">Selected work</p>
+    <h1>Projects</h1>
+    <p class="lead">Each entry explains the problem, the approach and what I personally did.</p>
+  </header>
+
+  <div id="projects-root">
+    <div class="empty" id="projects-empty">
+      <h2>No projects published yet</h2>
+      <p>This page shows real work only, and there is none to show yet. Entries are added in <code>js/projects-data.js</code>; the file explains each field, and the README has the steps.</p>
+      <button type="button" class="btn" id="example-toggle" aria-expanded="false">Preview the layout with an example</button>
+    </div>
+  </div>
+
+  <section class="section" aria-labelledby="lab-h">
+    <p class="section-label"><b>Experiment</b> Not a project, a learning tool</p>
+    <h2 id="lab-h" class="section-title">Sorting visualiser</h2>
+    <p class="lab-intro">Bubble sort, one step at a time. It compares neighbouring values and swaps them when the left one is bigger, and repeats until a full pass needs no swaps. Every step on screen is a recorded step of the real algorithm.</p>
+    <div class="viz" id="viz">
+      <div class="viz-controls">
+        <button type="button" class="btn" id="viz-step">Step</button>
+        <button type="button" class="btn btn-primary" id="viz-play" aria-pressed="false">Play</button>
+        <button type="button" class="btn" id="viz-end">Jump to end</button>
+        <button type="button" class="btn" id="viz-reset">Reset</button>
+        <button type="button" class="btn" id="viz-new">New random values</button>
+        <label class="speed">Speed
+          <select id="viz-speed">
+            <option value="1000">Slow</option>
+            <option value="500" selected>Normal</option>
+            <option value="200">Fast</option>
+          </select>
+        </label>
+      </div>
+      <p class="hint" id="viz-motion-note" hidden>Autoplay is off because your device asks for reduced motion. Use Step or Jump to end.</p>
+      <div class="viz-bars" id="viz-bars" role="img" aria-label="Bar chart"></div>
+      <p class="viz-array" id="viz-array"></p>
+      <p class="viz-status" id="viz-status" role="status" aria-live="polite"></p>
+      <ul class="viz-legend">
+        <li><span class="swatch" data-state="default"></span>Not touched this step</li>
+        <li><span class="swatch" data-state="compare"></span>Being compared</li>
+        <li><span class="swatch" data-state="swap"></span>Just swapped</li>
+        <li><span class="swatch" data-state="sorted"></span>In its final place</li>
+      </ul>
+      <p class="viz-facts" id="viz-counts"></p>
+      <p class="viz-facts note">In big-O terms: about n&sup2;/2 comparisons on average and in the worst case, so O(n&sup2;). With the early stop used here the best case, a list that is already sorted, is O(n). It needs O(1) extra memory. It is a teaching algorithm, not what you would use for large data, and this page is not a benchmark.</p>
+    </div>
+  </section>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>Azuka-space is the COS 106 project of Obi Chidera Azuka, Computer Science, MIVA Open University.</p>
+    <p>Planner data stays in your own browser.</p>
+  </div>
+</footer>
+<script src="js/store.js" defer></script>
+<script src="js/config.js" defer></script>
+<script src="js/main.js" defer></script>
+<script src="js/projects-data.js" defer></script>
+<script src="js/projects.js" defer></script>
+<script src="js/visualiser.js" defer></script>
+</body>
+</html>

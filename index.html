@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Azuka-space | Obi Chidera Azuka</title>
+<meta name="description" content="Portfolio and academic planner of Obi Chidera Azuka, a Computer Science student at MIVA Open University working towards Rust and blockchain engineering.">
+<meta name="theme-color" content="#0a0b0d">
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/archivo-latin-wdth.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body data-page="home">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="wordmark" href="index.html" aria-label="Azuka-space, home"><span class="wordmark-mark" aria-hidden="true"></span>Azuka-space</a>
+    <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="header-menu">Menu</button>
+    <div class="header-menu" id="header-menu">
+      <nav class="site-nav" aria-label="Main">
+        <ul class="nav-list"><li><a href="index.html" aria-current="page">Home</a></li><li><a href="about.html">About</a></li><li><a href="projects.html">Projects</a></li><li><a href="planner.html">Academic Planner</a></li><li><a href="contact.html">Contact</a></li></ul>
+      </nav>
+      <button type="button" class="btn btn-small cmd-button" data-open-palette aria-haspopup="dialog">Commands <kbd data-palette-key>Ctrl K</kbd></button>
+    </div>
+  </div>
+</header>
+<main id="main">
+<div class="container">
+  <section class="hero" aria-labelledby="home-title">
+    <div class="hero-head">
+      <p class="eyebrow">Computer Science, 100 Level, MIVA Open University</p>
+      <h1 id="home-title" class="display">
+        <span>Obi</span>
+        <span>Chidera</span>
+        <span>Azuka</span>
+      </h1>
+      <p class="role">Computer Science Student<span class="sep" aria-hidden="true">|</span>Aspiring Software Engineer</p>
+    </div>
+    <figure class="hero-photo">
+      <div class="photo-corners">
+        <div class="photo-frame" data-profile-photo data-src="assets/images/profile.jpg" data-alt="Portrait of Obi Chidera Azuka">
+          <div class="photo-placeholder">
+            <strong>Profile photo not added yet</strong>
+            <span>Save it as assets/images/profile.jpg and it appears here.</span>
+          </div>
+        </div>
+      </div>
+      <figcaption><span>Obi Chidera Azuka</span><span data-photo-status>Placeholder</span></figcaption>
+    </figure>
+    <div class="hero-body">
+      <p class="lead">I write HTML, CSS, JavaScript and basic Rust, and I am drawn to systems programming, problem-solving and building technically demanding software. Rust first, then blockchain, then zero-knowledge.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="projects.html">See the projects</a>
+        <a class="btn" href="about.html">About me</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="now-title">
+    <h2 id="now-title" class="section-label"><b>01</b> Where things stand</h2>
+    <dl class="ledger">
+      <div><dt>Learning</dt><dd>Rust fundamentals, and what actually happens underneath HTML, CSS and JavaScript for COS 106.</dd></div>
+      <div><dt>Building</dt><dd>This site and its planner, and OYA Creative, my creative portfolio, which is already live. The projects page only lists real work.</dd></div>
+      <div><dt>Heading</dt><dd>Rust developer, then blockchain engineering, with zero-knowledge as the longer-term target. Quantitative trading is a side interest I want to understand better.</dd></div>
+    </dl>
+  </section>
+
+  <section class="section" aria-labelledby="feat-title">
+    <p class="section-label"><b>02</b> Featured work</p>
+    <div class="feature">
+      <div>
+        <h2 id="feat-title" class="feature-title">OYA Creative</h2>
+        <p class="lead">A multidisciplinary creative portfolio, live now. It shows two projects: a 10-photograph promotional collection for N2P (nth2prove) and a 37-second skate video.</p>
+        <div class="feature-links">
+          <a class="arrow-link" href="projects.html">Read the case study</a>
+          <a class="arrow-link" href="https://oyacreative.vercel.app/" target="_blank" rel="noopener noreferrer">Visit OYA Creative<span class="visually-hidden"> (opens in a new tab)</span></a>
+        </div>
+      </div>
+      <figure class="feature-media">
+        <img src="assets/images/oya-home.jpg" width="1400" height="703" alt="The OYA Creative homepage: the word OYA in very large black letters on a light background, with the navigation Home, Work, About and Contact above it." loading="lazy">
+      </figure>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="snap-title">
+    <p class="section-label"><b>03</b> Academic Planner</p>
+    <div class="planner-row">
+      <div>
+        <h2 id="snap-title">Planner right now</h2>
+        <p class="note">The tool I use to balance university work against independent engineering, with deadlines, time logs and a workload split I can adjust.</p>
+        <a class="arrow-link" href="planner.html">Open the planner</a>
+      </div>
+      <div id="home-snapshot"><p class="note">Loading the planner snapshot needs JavaScript.</p></div>
+    </div>
+  </section>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>Azuka-space is the COS 106 project of Obi Chidera Azuka, Computer Science, MIVA Open University.</p>
+    <p>Planner data stays in your own browser.</p>
+  </div>
+</footer>
+<script src="js/store.js" defer></script>
+<script src="js/config.js" defer></script>
+<script src="js/main.js" defer></script>
+<script src="js/home.js" defer></script>
+</body>
+</html>
